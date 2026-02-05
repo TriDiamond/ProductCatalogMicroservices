@@ -1,5 +1,6 @@
 package dev.benish.productcatalogservice.service;
 
+import dev.benish.productcatalogservice.dto.ProductRequestDto;
 import dev.benish.productcatalogservice.model.Product;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface IProductService {
     List<Product> getProduct();
 
     void createProduct();
+
+    Product replaceProduct(ProductRequestDto productRequest, Long id);
 }

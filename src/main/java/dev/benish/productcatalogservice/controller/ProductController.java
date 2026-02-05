@@ -3,6 +3,7 @@ package dev.benish.productcatalogservice.controller;
 import dev.benish.productcatalogservice.dto.ProductRequestDto;
 import dev.benish.productcatalogservice.dto.ProductResponseDto;
 import dev.benish.productcatalogservice.dto.ResponseStatus;
+import dev.benish.productcatalogservice.exception.ControllerException;
 import dev.benish.productcatalogservice.model.Product;
 import dev.benish.productcatalogservice.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Request recieve to the controller is json so we using restcontroller
@@ -56,7 +60,7 @@ public class ProductController {
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductResponseDto> getProductById(@PathVariable("id") Long id){
        if(id < 1){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Invalid product Id (Zero or Negative)");
         }
 
        Product product  = productService.getProductById(id);
@@ -75,10 +79,18 @@ public class ProductController {
     }*/
 
     @GetMapping("/products")
-    public String getAllProducts(){
-        return "helloWorld";
+    public List<ProductResponseDto> getAllProducts(){
+        List<ProductResponseDto> productResponseDto = new ArrayList<>();
+        List<Product> productList = productService.getProduct();
+        for(Product product : productList){
+            productResponseDto.add(product.convert());
+        }
+        return productResponseDto;
     }
 
-
-
+    @PutMapping("/products/{id}")
+    public ProductResponseDto updateProduct(ProductRequestDto productRequest, @PathVariable("id") Long id){
+        Product product = productService.replaceProduct(productRequest, id);
+        return product.convert();
+    }
 }

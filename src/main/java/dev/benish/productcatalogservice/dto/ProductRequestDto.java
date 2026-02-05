@@ -13,4 +13,19 @@ public class ProductRequestDto {
     private int quantity;
     private String imageUrl;  //link og s3bucket
     private Category category;
+
+    //convert to fakeProductDto
+
+    public FakeStoreProductDto convertToFakeProductDto(){
+        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+        fakeStoreProductDto.setCategory(this.getCategory().getName());
+        fakeStoreProductDto.setTitle(this.getName());
+        fakeStoreProductDto.setDescription(this.getDescription());
+        fakeStoreProductDto.setPrice((float)this.getPrice());
+        fakeStoreProductDto.setImageUrl(this.getImageUrl());
+
+        return fakeStoreProductDto;
+    }
 }
+
+
