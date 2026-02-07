@@ -1,9 +1,15 @@
 package dev.benish.productcatalogservice.model;
 
 import dev.benish.productcatalogservice.dto.ProductResponseDto;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
+@Table(name = "products")
 @Getter
 @Setter
 public class Product extends BaseModel{
@@ -12,6 +18,7 @@ public class Product extends BaseModel{
     private double price;
     private int quantity;
     private String imageUrl;
+    @ManyToOne(cascade = CascadeType.ALL) //composition if category table updated product table also modified
     private Category category;
 
     public ProductResponseDto convert(){

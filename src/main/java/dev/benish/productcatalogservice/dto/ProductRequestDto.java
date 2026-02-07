@@ -17,8 +17,9 @@ public class ProductRequestDto {
     //convert to fakeProductDto
 
     public FakeStoreProductDto convertToFakeProductDto(){
+        Category category = new Category();
         FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
-        fakeStoreProductDto.setCategory(this.getCategory().getName());
+        fakeStoreProductDto.setCategory(category.getName());
         fakeStoreProductDto.setTitle(this.getName());
         fakeStoreProductDto.setDescription(this.getDescription());
         fakeStoreProductDto.setPrice((float)this.getPrice());
