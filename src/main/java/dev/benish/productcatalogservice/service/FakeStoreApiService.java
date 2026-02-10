@@ -4,10 +4,12 @@ import dev.benish.productcatalogservice.client.FakeStoreAPIClient;
 import dev.benish.productcatalogservice.dto.FakeStoreProductDto;
 import dev.benish.productcatalogservice.dto.ProductRequestDto;
 import dev.benish.productcatalogservice.model.Product;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.List;
 
 
 @Service
+@Qualifier("fakeStoreApiService")
 public class FakeStoreApiService implements IProductService{
 
     private FakeStoreAPIClient fakeStoreAPIClient;
@@ -75,8 +78,8 @@ public class FakeStoreApiService implements IProductService{
 
 
     @Override
-    public void createProduct() {
-
+    public Product createProduct(Product product) {
+        return null;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class FakeStoreApiService implements IProductService{
                 fakeStoreAPIClient.requestForEntity(
                         HttpMethod.PUT,
                         "https://fakestoreapi.com/products/{id}",
-                        FakeStoreProductDto.class, FakeStoreProductDto.class,
+                        fakeStoreProductDto, FakeStoreProductDto.class,
                         id);
         if(fakeStoreAPIClient.validateResponse(responseEntity)){
            FakeStoreProductDto responseFakeStoreProductDto =  responseEntity.getBody();

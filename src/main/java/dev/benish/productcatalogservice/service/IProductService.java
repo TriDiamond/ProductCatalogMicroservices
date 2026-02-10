@@ -15,7 +15,7 @@ public interface IProductService {
 
     List<Product> getProduct();
 
-    void createProduct();
+    Product createProduct(Product product);
 
     Product replaceProduct(ProductRequestDto productRequest, Long id);
 }

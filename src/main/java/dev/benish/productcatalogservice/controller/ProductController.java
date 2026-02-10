@@ -7,6 +7,7 @@ import dev.benish.productcatalogservice.exception.ControllerException;
 import dev.benish.productcatalogservice.model.Product;
 import dev.benish.productcatalogservice.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -44,17 +45,24 @@ public class ProductController {
      private IProductService productService;
 
      @Autowired
-     public ProductController(IProductService productService){
+     public ProductController(@Qualifier("productService") IProductService productService){
          this.productService = productService;
      }
 
     /*
      * Recieved json we say payload or requestBody
      */
-    @PostMapping
-    public ProductResponseDto createProduct(@RequestBody  ProductRequestDto request){
+    @PostMapping("/products")
+    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody  ProductRequestDto request){
+        ProductResponseDto response = new ProductResponseDto();
+        Product product = productService.createProduct(request.convertToProduct());
 
-        return null;
+        if(product == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ProductResponseDto productResponse = product.convert();
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
     @GetMapping("/products/{id}")
@@ -89,8 +97,8 @@ public class ProductController {
     }
 
     @PutMapping("/products/{id}")
-    public ProductResponseDto updateProduct(ProductRequestDto productRequest, @PathVariable("id") Long id){
-        Product product = productService.replaceProduct(productRequest, id);
+    public ProductResponseDto updateProduct(@RequestBody  ProductRequestDto productRequestDto, @PathVariable("id") Long id){
+        Product product = productService.replaceProduct(productRequestDto, id);
         return product.convert();
     }
 }
