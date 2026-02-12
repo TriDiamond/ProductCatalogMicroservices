@@ -36,7 +36,7 @@ class ProductControllerTest {
         product.setCategory(null);
 
         when(productService.getProductById(1L)).thenReturn(product);
-        product.convert();
+        ProductResponseDto productResponse = product.convert();
         ResponseEntity<ProductResponseDto> response =  productController.getProductById(1L);
 
         assertNotNull(response);

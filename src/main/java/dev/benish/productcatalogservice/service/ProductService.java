@@ -4,6 +4,7 @@ import dev.benish.productcatalogservice.dto.ProductRequestDto;
 import dev.benish.productcatalogservice.model.Product;
 import dev.benish.productcatalogservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Service
 @Qualifier("productService")
+@Primary
 public class ProductService implements IProductService{
 
     private ProductRepository productRepository;
