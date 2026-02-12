@@ -20,13 +20,15 @@ class CategoryRepositoryTest {
     @Test
     @Transactional
     public void testCategoryJpa(){
-       Optional<Category> optionalCategory = categoryRepository.findById(1L);
+       Optional<Category> optionalCategory = categoryRepository.findById(2L);
        if(optionalCategory.isPresent()){
             Category category = optionalCategory.get();
+            String actualValue = category.getDescription();
+            assertEquals("Grocerry", actualValue);
             System.out.println();
-            for(Product product : category.getProducts()){
+          /*  for(Product product : category.getProducts()){
                 System.out.println(product.getName());
-            }
+            }*/
           // System.out.println();
        }
     }
