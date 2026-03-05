@@ -1,5 +1,6 @@
 package dev.benish.productcatalogservice.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.benish.productcatalogservice.dto.ProductResponseDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -18,6 +19,7 @@ public class Product extends BaseModel{
     private double price;
     private int quantity;
     private String imageUrl;
+    @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL) //composition if category table updated product table also modified
     private Category category;
 
